@@ -5,7 +5,7 @@ class GetBookmarkStatus {
 
   GetBookmarkStatus(this.repository);
 
-  Future<bool> Execute(String url) async {
+  Future<bool> execute(String url) async {
     return repository.isAddedtoBookmark(url);
   }
 }
