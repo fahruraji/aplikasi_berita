@@ -5,7 +5,7 @@ import 'package:aplikasi_berita/common/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:aplikasi_berita/presentation/widgets/detail_page.dart';
+import 'package:aplikasi_berita/presentation/pages/detail_page.dart';
 
 part 'top_headline_article_card.dart';
 part 'article_list.dart';
