@@ -1,31 +1,23 @@
-import 'package:aplikasi_berita/data/models/article_model.dart';
-import 'package:aplikasi_berita/domain/entities/article.dart';
-import 'package:aplikasi_berita/domain/entities/articles.dart';
 import 'package:equatable/equatable.dart';
+import 'package:aplikasi_berita/data/models/article_model.dart';
+import 'package:aplikasi_berita/domain/entities/articles.dart';
 
 class ArticleResponse extends Equatable {
-  ArticleResponse({
-    required this.totalResults,
-    required this.articles,
-  });
-
   final int totalResults;
   final List<ArticleModel> articles;
-
+  ArticleResponse({required this.totalResults, required this.articles});
   factory ArticleResponse.fromJson(Map<String, dynamic> json) =>
       ArticleResponse(
-        totalResults: json["totalResults"],
+        totalResults: json['totalResults'],
         articles: List<ArticleModel>.from((json["articles"] as List)
             .map((x) => ArticleModel.fromJson(x))
             .where((article) =>
                 article.urlToImage != null && article.publishedAt != null)),
       );
-
   Map<String, dynamic> toJson() => {
         "totalResults": totalResults,
-        "articles": articles.map((article) => article.toEntity()).toList()
+        "articles": List<dynamic>.from(articles.map((x) => x.toJson()))
       };
-
   Articles toEntity() {
     return Articles(
         totalResults: totalResults,
@@ -33,8 +25,5 @@ class ArticleResponse extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        totalResults,
-        articles,
-      ];
+  List<Object?> get props => [totalResults, articles];
 }

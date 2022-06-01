@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
@@ -14,20 +13,19 @@ class Shared {
           .buffer
           .asUint8List();
       context.setTrustedCertificatesBytes(bytes);
-      log('createHttpClient() - cert ditambahkan!');
+      log('createHttpClient() - cert added!');
     } on TlsException catch (e) {
       if (e.osError?.message != null &&
           e.osError!.message.contains('CERT_ALREADY_IN_HASH_TABLE')) {
-        log('createHttpClient() - cert sudah diverifikasi! skip');
+        log('createHttpClient() - cert already trusted! Skipping.');
       } else {
-        log('createHttpClient().setTrustedCertificatesBytes() Exception: $e');
+        log('createHttpClient().setTrustedCertificateBytes EXCEPTION: $e');
         rethrow;
       }
     } catch (e) {
       log('unexpected error $e');
       rethrow;
     }
-
     HttpClient httpClient = HttpClient(context: context);
     httpClient.badCertificateCallback =
         (X509Certificate cert, String host, int port) => false;
@@ -35,7 +33,7 @@ class Shared {
   }
 
   static Future<http.Client> createLEClient() async {
-    IOClient client = IOClient(await customHttpClient());
+    IOClient client = IOClient(await Shared.customHttpClient());
     return client;
   }
 }

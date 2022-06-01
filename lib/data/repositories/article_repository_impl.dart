@@ -1,26 +1,23 @@
 import 'dart:io';
-
-import 'package:aplikasi_berita/common/exception.dart';
-import 'package:aplikasi_berita/common/failure.dart';
+import 'package:dartz/dartz.dart';
 import 'package:aplikasi_berita/common/network_info.dart';
 import 'package:aplikasi_berita/data/datasources/article_local_data_source.dart';
 import 'package:aplikasi_berita/data/datasources/article_remote_data_source.dart';
 import 'package:aplikasi_berita/data/models/article_table.dart';
 import 'package:aplikasi_berita/domain/entities/article.dart';
 import 'package:aplikasi_berita/domain/entities/articles.dart';
-import 'package:dartz/dartz.dart';
 import 'package:aplikasi_berita/domain/repositories/article_repository.dart';
+import 'package:aplikasi_berita/common/exception.dart';
+import 'package:aplikasi_berita/common/failure.dart';
 
 class ArticleRepositoryImpl implements ArticleRepository {
   final ArticleRemoteDataSource remoteDataSource;
   final ArticleLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
-
   ArticleRepositoryImpl(
       {required this.remoteDataSource,
       required this.localDataSource,
       required this.networkInfo});
-
   @override
   Future<Either<Failure, List<Article>>> getTopHeadlineArticles() async {
     if (await networkInfo.isConnected) {
@@ -32,7 +29,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
       } on ServerException {
         return Left(ServerFailure(''));
       } on TlsException catch (e) {
-        return Left(CommonFailure('Sertifikat tidak valid: \n${e.message}'));
+        return Left(CommonFailure('Certificated Not Valid:\n${e.message}'));
       }
     } else {
       try {
@@ -48,19 +45,19 @@ class ArticleRepositoryImpl implements ArticleRepository {
   Future<Either<Failure, List<Article>>> getHeadlineBusinessArticles() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getTopHeadlineBussinessArticles();
-        localDataSource.cacheTopHeadlineArticles(
+        final result = await remoteDataSource.getHeadlineBusinessArticles();
+        localDataSource.cacheHeadlineBusinessArticles(
             result.map((article) => ArticleTable.fromDTO(article)).toList());
         return Right(result.map((model) => model.toEntity()).toList());
       } on ServerException {
         return Left(ServerFailure(''));
       } on TlsException catch (e) {
-        return Left(CommonFailure('Sertifikat tidak valid: \n${e.message}'));
+        return Left(CommonFailure('Certificated Not Valid:\n${e.message}'));
       }
     } else {
       try {
         final result =
-            await localDataSource.getCachedHeadlineBussinessArticles();
+            await localDataSource.getCachedHeadlineBusinessArticles();
         return Right(result.map((model) => model.toEntity()).toList());
       } on CacheException catch (e) {
         return Left(CacheFailure(e.message));
@@ -77,24 +74,24 @@ class ArticleRepositoryImpl implements ArticleRepository {
     } on ServerException {
       return Left(ServerFailure(''));
     } on SocketException {
-      return Left(CommonFailure('Tidak dapat terkoneksi ke internet'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     } on TlsException catch (e) {
-      return Left(CommonFailure('Sertifikat tidak valid: \n${e.message}'));
+      return Left(CommonFailure('Certificated Not Valid:\n${e.message}'));
     }
   }
 
   @override
   Future<Either<Failure, Articles>> searchArticle(String query,
-      {int page = 1}) async {
+      {int page: 1}) async {
     try {
-      final result = await remoteDataSource.searchArticle(query, page);
+      final result = await remoteDataSource.searchArticles(query, page);
       return Right(result.toEntity());
     } on ServerException {
       return Left(ServerFailure(''));
     } on SocketException {
-      return Left(CommonFailure('Tidak dapat terkoneksi ke internet'));
+      return Left(ConnectionFailure('Failed to connect to the network'));
     } on TlsException catch (e) {
-      return Left(CommonFailure('Sertifikat tidak valid: \n${e.message}'));
+      return Left(CommonFailure('Certificated Not Valid:\n${e.message}'));
     }
   }
 
@@ -119,8 +116,6 @@ class ArticleRepositoryImpl implements ArticleRepository {
       return Right(result);
     } on DatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
-    } catch (e) {
-      throw e;
     }
   }
 
@@ -133,6 +128,6 @@ class ArticleRepositoryImpl implements ArticleRepository {
   @override
   Future<Either<Failure, List<Article>>> getBookmarkArticles() async {
     final result = await localDataSource.getBookmarkArticles();
-    return Right(result.map((e) => e.toEntity()).toList());
+    return Right(result.map((data) => data.toEntity()).toList());
   }
 }

@@ -1,5 +1,5 @@
-import 'package:aplikasi_berita/domain/entities/article.dart';
 import 'package:equatable/equatable.dart';
+import 'package:aplikasi_berita/domain/entities/article.dart';
 
 class ArticleModel extends Equatable {
   ArticleModel({
@@ -11,7 +11,6 @@ class ArticleModel extends Equatable {
     required this.publishedAt,
     required this.content,
   });
-
   final String? author;
   final String? title;
   final String? description;
@@ -19,7 +18,6 @@ class ArticleModel extends Equatable {
   final String? urlToImage;
   final DateTime? publishedAt;
   final String? content;
-
   factory ArticleModel.fromJson(Map<String, dynamic> json) => ArticleModel(
         author: json["author"],
         title: json["title"],
@@ -29,7 +27,6 @@ class ArticleModel extends Equatable {
         publishedAt: DateTime.parse(json["publishedAt"]),
         content: json["content"],
       );
-
   Map<String, dynamic> toJson() => {
         "author": author,
         "title": title,
@@ -39,7 +36,6 @@ class ArticleModel extends Equatable {
         "publishedAt": publishedAt?.toIso8601String(),
         "content": content,
       };
-
   Article toEntity() {
     return Article(
       author: this.author,

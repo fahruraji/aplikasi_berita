@@ -8,17 +8,14 @@ import 'package:http/http.dart' as http;
 
 abstract class ArticleRemoteDataSource {
   Future<List<ArticleModel>> getTopHeadlineArticles();
-  Future<List<ArticleModel>> getTopHeadlineBussinessArticles();
-
+  Future<List<ArticleModel>> getHeadlineBusinessArticles();
   Future<List<ArticleModel>> getArticleCategory(String category);
-  Future<ArticleResponse> searchArticle(String query, int page);
+  Future<ArticleResponse> searchArticles(String query, int page);
 }
 
 class ArticleRemoteDataSourceImpl implements ArticleRemoteDataSource {
   final http.Client client;
-
   ArticleRemoteDataSourceImpl({required this.client});
-
   @override
   Future<List<ArticleModel>> getTopHeadlineArticles() async {
     final response = await client.get(Uri.parse(
@@ -31,7 +28,7 @@ class ArticleRemoteDataSourceImpl implements ArticleRemoteDataSource {
   }
 
   @override
-  Future<List<ArticleModel>> getTopHeadlineBussinessArticles() async {
+  Future<List<ArticleModel>> getHeadlineBusinessArticles() async {
     final response = await client.get(Uri.parse(
         '${baseUrl}top-headlines?country=$country&category=business&apiKey=$apiKey&pageSize=20'));
     if (response.statusCode == 200) {
@@ -53,7 +50,7 @@ class ArticleRemoteDataSourceImpl implements ArticleRemoteDataSource {
   }
 
   @override
-  Future<ArticleResponse> searchArticle(String query, int page) async {
+  Future<ArticleResponse> searchArticles(String query, int page) async {
     final response = await client.get(Uri.parse(
         '${baseUrl}everything?q=$query&apiKey=$apiKey&pageSize=$pageSize&page=$page'));
     if (response.statusCode == 200) {

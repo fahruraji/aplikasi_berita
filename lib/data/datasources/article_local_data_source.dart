@@ -5,27 +5,22 @@ import 'package:aplikasi_berita/data/models/article_table.dart';
 abstract class ArticleLocalDataSource {
   Future<String> insertBookmarkArticle(ArticleTable article);
   Future<String> removeBookmarkArticle(ArticleTable article);
-
   Future<ArticleTable?> getArticleByUrl(String url);
   Future<List<ArticleTable>> getBookmarkArticles();
-
   Future<void> cacheTopHeadlineArticles(List<ArticleTable> articles);
   Future<List<ArticleTable>> getCachedTopHeadlineArticles();
-
-  Future<void> cacheHeadlineBussinessArticle(List<ArticleTable> articles);
-  Future<List<ArticleTable>> getCachedHeadlineBussinessArticles();
+  Future<void> cacheHeadlineBusinessArticles(List<ArticleTable> articles);
+  Future<List<ArticleTable>> getCachedHeadlineBusinessArticles();
 }
 
 class ArticleLocalDataSourceImpl implements ArticleLocalDataSource {
   final DatabaseHelper databaseHelper;
-
   ArticleLocalDataSourceImpl({required this.databaseHelper});
-
   @override
   Future<String> insertBookmarkArticle(ArticleTable article) async {
     try {
       await databaseHelper.insertBookmarkArticle(article);
-      return 'Berhasil menambahkan pada Bookmark';
+      return 'Added to Bookmark';
     } catch (e) {
       throw DatabaseException(e.toString());
     }
@@ -35,7 +30,7 @@ class ArticleLocalDataSourceImpl implements ArticleLocalDataSource {
   Future<String> removeBookmarkArticle(ArticleTable article) async {
     try {
       await databaseHelper.removeBookmarkArticle(article);
-      return 'Berhasil menghapus pada Bookmark';
+      return 'Removed from Bookmark';
     } catch (e) {
       throw DatabaseException(e.toString());
     }
@@ -70,25 +65,25 @@ class ArticleLocalDataSourceImpl implements ArticleLocalDataSource {
     if (result.length > 0) {
       return result.map((data) => ArticleTable.fromMap(data)).toList();
     } else {
-      throw CacheException("Gagal Mendapatkan Data: (");
+      throw CacheException("Can't get the data :(");
     }
   }
 
   @override
-  Future<void> cacheHeadlineBussinessArticle(
+  Future<void> cacheHeadlineBusinessArticles(
       List<ArticleTable> articles) async {
-    await databaseHelper.clearCacheArticles('top headline');
+    await databaseHelper.clearCacheArticles('headline business');
     await databaseHelper.insertCacheTransactionArticles(
-        articles, 'top bussiness');
+        articles, 'headline business');
   }
 
   @override
-  Future<List<ArticleTable>> getCachedHeadlineBussinessArticles() async {
-    final result = await databaseHelper.getCacheArticles('top bussiness');
+  Future<List<ArticleTable>> getCachedHeadlineBusinessArticles() async {
+    final result = await databaseHelper.getCacheArticles('headline business');
     if (result.length > 0) {
       return result.map((data) => ArticleTable.fromMap(data)).toList();
     } else {
-      throw CacheException("Gagal Mendapatkan Data: (");
+      throw CacheException("Can't get the data :(");
     }
   }
 }
