@@ -6,58 +6,58 @@
 
 #####################################################
 
-Splash Screen
+#### Splash Screen
 
 <img
   src="screenshots/splash.jpg"
   alt="Splash Screen"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
 
-Halaman Utama
+#### Halaman Utama
 
 <img
   src="screenshots/main.jpg"
   alt="Main Screen"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
 
-Detail Berita
+#### Detail Berita
 
 <img
   src="screenshots/detail.jpg"
   alt="News Detail"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
 
-Halaman Pencarian
+#### Halaman Pencarian
 
 <img
   src="screenshots/search.jpg"
   alt="Search News"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
 
-Halaman Bookmark
+#### Halaman Bookmark
 
 <img
   src="screenshots/bookmark_empty.jpg"
   alt="Bookmark Screen"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
 
-Simpan ke Bookmark
+#### Simpan ke Bookmark
 
 <img
   src="screenshots/add_to_bookmark.jpg"
   alt="Add to Bookmark"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
 
-Daftar Bookmark
+#### Daftar Bookmark
 
 <img
   src="screenshots/bookmark_list.jpg"
   alt="Bookmark List"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
 
-Hapus dari Bookmark
+#### Hapus dari Bookmark
 
 <img
   src="screenshots/remove_from_bookmark.jpg"
   alt="Remove from Bookmark"
-  style="display: inline-block; margin: 0 auto; max-width: 300px">
+  style="display: inline-block; margin: 0 auto; max-width: 150px">
